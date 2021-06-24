@@ -11,7 +11,7 @@ const {
   MONGO_DB,
 } = process.env;
 
- const mongoDBConnect = `mongodb+srv://gel:jSbVWePs1FDX1sj5@gel.cwfwm.mongodb.net/Gel?retryWrites=true&w=majority`;
+const mongoDBConnect = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}/${MONGO_DB}?retryWrites=true&w=majority`;
 
 
 /*init an express application*/
@@ -28,7 +28,7 @@ mongoose.connect(mongoDBConnect,{ useNewUrlParser: true, useUnifiedTopology: tru
     console.log("Rest Api has successfully connected to mongoDb Database");
 })
 .catch(err=>{
-    console.log(err);
+    console.log("Not connected to the database");
 })
 
 

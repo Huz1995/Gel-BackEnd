@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const userRoutes = require('./routes/user');
 
 const {
   MONGO_USERNAME,
@@ -32,8 +33,8 @@ mongoose.connect(mongoDBConnect,{ useNewUrlParser: true, useUnifiedTopology: tru
 })
 
 
-app.get("", (req,res,next) => {
-    res.send("API IS WORKING");
-})
+
+
+app.use("/api/user",userRoutes);
 
 module.exports = app;

@@ -32,9 +32,6 @@ mongoose.connect(mongoDBConnect,{ useNewUrlParser: true, useUnifiedTopology: tru
     console.log("Not connected to the database");
 })
 
-
-
-
 app.use("/api/user",userRoutes);
 
 module.exports = app;

@@ -49,34 +49,22 @@ router.post("/registration", (req, res, next) => {
 or not*/
 router.get("/:uid", async (req,res,next) => {
 
-    // const result = await HairArtist.findOne({uid: req.params.uid});
-    // if(result!=null) {
-    //     res.status(202).send(result.isHairArtist);
-    // }
-    // else {
-    //     const result2 = await HairClient.findOne({uid: req.params.uid});
-    //     if(result != null) {
-    //         res.status(202).send(result2.isHairArtist);
-    //     }
-    //     else {
-    //         res.status(404).send("error");
-    //     }
-    // }
-
-     HairArtist.findOne({uid: req.params.uid})
-     .then((result) => {
-        if(result === null) {
-            HairClient.findOne({uid: req.params.uid})
-            .then((result2) => {
-                if(result2 != null) {
-                    res.status(202).send(result2.isHairArtist);
-                }
-            }
-           );
-        } else {
-            res.status(202).send(result.isHairArtist);
+    const result = await HairArtist.findOne({uid: req.params.uid});
+    if(result!=null) {
+        res.status(202).send(result.isHairArtist);
+    }
+    else {
+        const result2 = await HairClient.findOne({uid: req.params.uid});
+        console.log(result2);
+        if(result2 != null) {
+            res.status(202).send(result2.isHairArtist);
         }
-     })
+        else {
+            res.status(404).send("error");
+        }
+    }
+
+ 
 
 });
 

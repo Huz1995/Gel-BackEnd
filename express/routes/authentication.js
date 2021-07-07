@@ -11,13 +11,16 @@ router.post("/registration", (req, res, next) => {
             email: req.body.email,
             uid: req.body.uid,
             isHairArtist: req.body.isHairArtist,
+            profilePhotos: [],
         });
         hairArtist.save().then((dbRes) => {
+
             res.status(201).json({
                 message: "The user has been successfully registered",
                 result: dbRes,
                 regSuc: true,
             })
+
         }).catch((error) => {
             res.json({
                 message: "Unable to register with these credentials",
@@ -37,6 +40,7 @@ router.post("/registration", (req, res, next) => {
                 regSuc: true,
             })
         }).catch((error) => {
+
             res.json({
                 message: "Unable to register with these credentials",
                 regSuc: false,
@@ -63,9 +67,6 @@ router.get("/:uid", async (req,res,next) => {
             res.status(404).send("error");
         }
     }
-
- 
-
 });
 
 

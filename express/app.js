@@ -3,7 +3,8 @@ const cors = require('cors');
 const dotenv = require('dotenv').config();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const userRoutes = require('./routes/user');
+const authRoute = require('./routes/authentication');
+const hairArtistProfileRoute = require('./routes/hairArtistProfile');
 
 const {
   MONGO_USERNAME,
@@ -32,6 +33,8 @@ mongoose.connect(mongoDBConnect,{ useNewUrlParser: true, useUnifiedTopology: tru
     console.log("Not connected to the database");
 })
 
-app.use("/api/user",userRoutes);
+app.use("/api/authentication",authRoute);
+app.use("/api/hairArtistProfile",hairArtistProfileRoute);
+
 
 module.exports = app;

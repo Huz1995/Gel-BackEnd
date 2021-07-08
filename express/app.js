@@ -5,6 +5,13 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const authRoute = require('./routes/authentication');
 const hairArtistProfileRoute = require('./routes/hairArtistProfile');
+var admin = require("firebase-admin");
+
+var serviceAccount = require("../gel-auth-dev-firebase-adminsdk-277q6-131ac6786a.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 
 const {
   MONGO_USERNAME,

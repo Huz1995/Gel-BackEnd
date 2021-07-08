@@ -13,7 +13,7 @@ router.get('/:uid',authCheck,(req,res,next) => {
 })
 
 /*add photo url to hair artist profile*/
-router.put("/addphoto", authCheck,(req,res,next) => {
+router.put("/photos", authCheck,(req,res,next) => {
     console.log(req.body.photoUrl);
     HairArtist.findOneAndUpdate({uid: req.body.uid},{$push: {photoUrls: {$each: [req.body.photoUrl], $position: 0}}}, {new:true})
     .then(result => {
@@ -23,5 +23,20 @@ router.put("/addphoto", authCheck,(req,res,next) => {
         res.send("unable to store new photo url");
     })
 })
+
+
+/*add photo url to hair artist profile*/
+router.put("/profilepicture", authCheck,(req,res,next) => {
+    console.log(req.body.photoUrl);
+    HairArtist.findOneAndUpdate({uid: req.body.uid},{profilePhotoUrl: req.body.photoUrl}, {new:true})
+    .then(result => {
+        res.send("profile photo url added");
+    })
+    .catch(error => {
+        res.send("unable to store new photo url");
+    })
+})
+
+
 
 module.exports = router;

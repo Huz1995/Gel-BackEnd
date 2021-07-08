@@ -12,6 +12,7 @@ router.post("/registration", (req, res, next) => {
             uid: req.body.uid,
             isHairArtist: req.body.isHairArtist,
             profilePhotos: [],
+            photoUrl: null,
         });
         hairArtist.save().then((dbRes) => {
 

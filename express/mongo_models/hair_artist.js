@@ -18,6 +18,11 @@ const HairArtistSchema = new mongoose.Schema({
         type: [String],
         required: true,
     },
+    profilePhotoUrl: {
+        type: String,
+        required: false,
+        default: null,
+    }
 })
 
 module.exports = mongoose.model("Hair_Artist",HairArtistSchema);

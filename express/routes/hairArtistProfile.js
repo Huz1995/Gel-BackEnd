@@ -28,7 +28,7 @@ router.put("/photos", authCheck,(req,res,next) => {
 /*add photo url to hair artist profile*/
 router.put("/profilepicture", authCheck,(req,res,next) => {
     console.log(req.body.photoUrl);
-    HairArtist.findOneAndUpdate({uid: req.body.uid},{profilePhotoUrl: req.body.photoUrl}, {new:true})
+    HairArtist.findOneAndUpdate({uid: req.body.uid},{profilePhotoUrl: req.body.photoUrl})
     .then(result => {
         res.send("profile photo url added");
     })
@@ -37,6 +37,16 @@ router.put("/profilepicture", authCheck,(req,res,next) => {
     })
 })
 
+router.put("/about/:uid/",authCheck, (req,res,next) => {
+    HairArtist.findOneAndUpdate({uid: req.params.uid},{about: req.body})
+    .then(result => {
+        res.send("about infomation updated");
+    })
+    .catch(error => {
+        console.log(error);
+        res.send("unable to update infomation");
+    })
+})
 
 
 module.exports = router;

@@ -26,6 +26,11 @@ const HairArtistProfileInformation = new mongoose.Schema({
         required: false,
         default: null,
     },
+    workingArrangement: {
+        type: String,
+        required: false,
+        default: null,
+    },
     previousWorkExperience: {
         type: String,
         required: false,
@@ -72,8 +77,7 @@ const HairArtistSchema = new mongoose.Schema({
     },
     about: {
         type: HairArtistProfileInformation,
-        required: false,
-        default: null,
+        required: true,
     }
     
 })

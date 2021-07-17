@@ -15,12 +15,26 @@ router.get('/:uid',authCheck,(req,res,next) => {
 /*add photo url to hair artist profile*/
 router.put("/photos", authCheck,(req,res,next) => {
     console.log(req.body.photoUrl);
-    HairArtist.findOneAndUpdate({uid: req.body.uid},{$push: {photoUrls: {$each: [req.body.photoUrl], $position: 0}}}, {new:true})
+
+    HairArtist.findOneAndUpdate({uid: req.body.uid},{$push: {photoUrls: {$each: [req.body.photoUrl], $position: 0}}})
     .then(result => {
         res.send("photo url added");
     })
     .catch(error => {
         res.send("unable to store new photo url");
+    })
+})
+
+/*add photo url to hair artist profile*/
+router.delete("/photos", authCheck,(req,res,next) => {
+    console.log(req.body.photoUrl);
+    HairArtist.findOneAndUpdate({uid: req.body.uid},{$pull: {photoUrls: req.body.photoUrl}})
+    .then(result => {
+        console.log(result);
+        res.send("photo url deleted");
+    })
+    .catch(error => {
+        res.send("unable to delete url");
     })
 })
 
@@ -47,6 +61,7 @@ router.put("/about/:uid/",authCheck, (req,res,next) => {
         res.send("unable to update infomation");
     })
 })
+
 
 
 module.exports = router;

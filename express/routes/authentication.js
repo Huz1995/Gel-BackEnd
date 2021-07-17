@@ -27,7 +27,6 @@ router.post("/registration", (req, res, next) => {
             },
         });
         hairArtist.save().then((dbRes) => {
-
             res.status(201).json({
                 message: "The user has been successfully registered",
                 result: dbRes,

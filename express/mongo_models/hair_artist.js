@@ -41,16 +41,12 @@ const HairArtistProfileInformation = new mongoose.Schema({
         required: false,
         default: null,
     },
-    shortHairServCost: {
+    hairServCost: {
         type: String,
         required: false,
         default: null,
     },
-    longHairServCost: {
-        type: String,
-        required: false,
-        default: null,
-    }
+    
 })
 
 const HairArtistSchema = new mongoose.Schema({

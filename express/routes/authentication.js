@@ -22,8 +22,7 @@ router.post("/registration", (req, res, next) => {
                 workingArrangement: "",
                 previousWorkExperience: "",
                 hairTypes: "",
-                shortHairServCost: "",
-                longHairServCost: "",
+                hairServCost: "",
             },
         });
         hairArtist.save().then((dbRes) => {

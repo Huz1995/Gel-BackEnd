@@ -1,5 +1,18 @@
 const mongoose = require('mongoose');
 
+const HairArtistLocation = new mongoose.Schema({
+    lat: {
+        type: Number,
+        required: false,
+        default: null,
+    },
+    lng: {
+        type: Number,
+        required: false,
+        default: null,
+    }
+})
+
 const HairArtistProfileInformation = new mongoose.Schema({
     name: {
         type: String,
@@ -73,6 +86,10 @@ const HairArtistSchema = new mongoose.Schema({
     },
     about: {
         type: HairArtistProfileInformation,
+        required: true,
+    },
+    location: {
+        type: HairArtistLocation,
         required: true,
     }
     

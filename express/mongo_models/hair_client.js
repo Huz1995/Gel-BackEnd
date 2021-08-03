@@ -13,7 +13,17 @@ const HairClientSchema = new mongoose.Schema({
     isHairArtist: {
         type: Boolean,
         required: true,
-    }
+    },
+    profilePhotoUrl: {
+        type: String,
+        required: false,
+        default: null,
+    },
+    name: {
+        type: String,
+        required: false,
+        default: null,
+    },
 });
 
 module.exports = mongoose.model("Hair_Client",HairClientSchema);

@@ -4,17 +4,18 @@ const router = express.Router();
 const HairArtist = require("../mongo_models/hair_artist");
 const HairClient = require("../mongo_models/hair_client");
 
-router.post("/registration", (req, res, next) => {
+router.post("/registration",(req, res, next) => {
     const isHairArtist = (req.body.isHairArtist === 'true');
     if (isHairArtist) {
+        const tempName = "@" + req.body.email.split("@")[0];
         const hairArtist = new HairArtist({
             email: req.body.email,
             uid: req.body.uid,
             isHairArtist: req.body.isHairArtist,
             profilePhotos: [],
-            photoUrl: null,
+            profilePhotoUrl: req.body.photoURL != "null" ? req.body.photoURL : null,
             about: {
-                name: "",
+                name: tempName,
                 contactNumber: "",
                 instaUrl: "",
                 description: "",
@@ -24,6 +25,10 @@ router.post("/registration", (req, res, next) => {
                 hairTypes: "",
                 hairServCost: "",
             },
+            location: {
+                lat: null,
+                lng: null,
+            }
         });
         hairArtist.save().then((dbRes) => {
             res.status(201).json({
@@ -39,10 +44,13 @@ router.post("/registration", (req, res, next) => {
             });
         });
     } else {
+        const tempName = "@" + req.body.email.split("@")[0];
         const hairClient = new HairClient({
             email: req.body.email,
             uid: req.body.uid,
             isHairArtist: req.body.isHairArtist,
+            profilePhotoUrl: req.body.photoURL != "null" ? req.body.photoURL : null,
+            name: tempName,
         });
         hairClient.save().then((dbRes) => {
             res.status(201).json({
@@ -51,7 +59,6 @@ router.post("/registration", (req, res, next) => {
                 regSuc: true,
             })
         }).catch((error) => {
-
             res.json({
                 message: "Unable to register with these credentials",
                 regSuc: false,
@@ -59,6 +66,8 @@ router.post("/registration", (req, res, next) => {
         });
     }
 })
+
+
 
 /*function that gets the info if the user is a hair professional
 or not*/
@@ -70,12 +79,11 @@ router.get("/:uid", async (req,res,next) => {
     }
     else {
         const result2 = await HairClient.findOne({uid: req.params.uid});
-        console.log(result2);
         if(result2 != null) {
             res.status(202).send(result2.isHairArtist);
         }
         else {
-            res.status(404).send("error");
+            res.send("User does not exist");
         }
     }
 });

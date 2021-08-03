@@ -51,6 +51,17 @@ router.put("/profilepicture", authCheck,(req,res,next) => {
     })
 })
 
+router.delete("/profilepicture", authCheck,(req,res,next) => {
+    console.log(req.body.photoUrl);
+    HairArtist.findOneAndUpdate({uid: req.body.uid},{profilePhotoUrl: null})
+    .then(result => {
+        res.send("profile photo url added");
+    })
+    .catch(error => {
+        res.send("unable to store new photo url");
+    })
+})
+
 router.put("/about/:uid/",authCheck, (req,res,next) => {
     HairArtist.findOneAndUpdate({uid: req.params.uid},{about: req.body})
     .then(result => {
@@ -62,6 +73,16 @@ router.put("/about/:uid/",authCheck, (req,res,next) => {
     })
 })
 
+router.put("/location/:uid/",authCheck, (req,res,next) => {
+    HairArtist.findOneAndUpdate({uid: req.params.uid},{location: req.body},{new: true})
+    .then(result => {
+        res.send("about infomation updated");
+    })
+    .catch(error => {
+        console.log(error);
+        res.send("unable to update infomation");
+    })
+})
 
 
 module.exports = router;

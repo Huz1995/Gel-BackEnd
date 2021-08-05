@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const authRoute = require('./routes/authentication');
 const hairArtistProfileRoute = require('./routes/hairArtistProfile');
 const hairClientProfileRoute = require('./routes/hairClientProfile');
+const searchHairArtistsRoute = require('./routes/searchHairArtists');
 var admin = require("firebase-admin");
 
 var serviceAccount = require("../gel-auth-dev-firebase-adminsdk-277q6-fc605e12ac.json");
@@ -44,6 +45,7 @@ mongoose.connect(mongoDBConnect,{ useNewUrlParser: true, useUnifiedTopology: tru
 app.use("/api/authentication",authRoute);
 app.use("/api/hairArtistProfile",hairArtistProfileRoute);
 app.use("/api/hairClientProfile",hairClientProfileRoute);
+app.use("/api/searchHairArtists",searchHairArtistsRoute);
 
 
 module.exports = app;

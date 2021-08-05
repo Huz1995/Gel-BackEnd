@@ -1,16 +1,15 @@
 const mongoose = require('mongoose');
 
 const HairArtistLocation = new mongoose.Schema({
-    lat: {
-        type: Number,
-        required: false,
-        default: null,
-    },
-    lng: {
-        type: Number,
-        required: false,
-        default: null,
-    }
+    type: {
+        type: String,
+        enum: ['Point'],
+        required: true
+      },
+      coordinates: {
+        type: [Number],
+        required: true
+      }
 })
 
 const HairArtistProfileInformation = new mongoose.Schema({
@@ -90,9 +89,12 @@ const HairArtistSchema = new mongoose.Schema({
     },
     location: {
         type: HairArtistLocation,
-        required: true,
+        required: true, 
+        default: [0, 0],
     }
     
 })
+
+HairArtistSchema.index({location: "2dsphere"});
 
 module.exports = mongoose.model("Hair_Artist",HairArtistSchema);

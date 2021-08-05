@@ -8,7 +8,12 @@ router.get('/:uid',authCheck,(req,res,next) => {
     const uid = req.params.uid;
     HairArtist.findOne({uid: req.params.uid})
     .then(userData => {
+        console.log(userData);
+
         res.send(userData);
+    })
+    .catch(error => {
+        console.log(error);
     })
 })
 
@@ -16,7 +21,15 @@ router.get('/:uid',authCheck,(req,res,next) => {
 router.put("/photos", authCheck,(req,res,next) => {
     console.log(req.body.photoUrl);
 
-    HairArtist.findOneAndUpdate({uid: req.body.uid},{$push: {photoUrls: {$each: [req.body.photoUrl], $position: 0}}})
+    HairArtist.findOneAndUpdate(
+        {uid: req.body.uid},
+        {$push: {
+            photoUrls: {
+                $each: [req.body.photoUrl], $position: 0
+            }
+        }
+    }
+    )
     .then(result => {
         res.send("photo url added");
     })
@@ -28,7 +41,13 @@ router.put("/photos", authCheck,(req,res,next) => {
 /*add photo url to hair artist profile*/
 router.delete("/photos", authCheck,(req,res,next) => {
     console.log(req.body.photoUrl);
-    HairArtist.findOneAndUpdate({uid: req.body.uid},{$pull: {photoUrls: req.body.photoUrl}})
+    HairArtist.findOneAndUpdate(
+        {uid: req.body.uid},
+        {$pull: {
+            photoUrls: req.body.photoUrl
+        }
+    }
+    )
     .then(result => {
         console.log(result);
         res.send("photo url deleted");
@@ -74,7 +93,8 @@ router.put("/about/:uid/",authCheck, (req,res,next) => {
 })
 
 router.put("/location/:uid/",authCheck, (req,res,next) => {
-    HairArtist.findOneAndUpdate({uid: req.params.uid},{location: req.body},{new: true})
+    console.log(req.body);
+    HairArtist.findOneAndUpdate({uid: req.params.uid},{location: {type: 'Point', coordinates: [req.body.lng,req.body.lat]}},{new: true})
     .then(result => {
         res.send("about infomation updated");
     })

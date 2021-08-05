@@ -26,9 +26,9 @@ router.post("/registration",(req, res, next) => {
                 hairServCost: "",
             },
             location: {
-                lat: null,
-                lng: null,
-            }
+                type: 'Point',
+                coordinates: [0,0],
+            },
         });
         hairArtist.save().then((dbRes) => {
             res.status(201).json({
@@ -38,6 +38,8 @@ router.post("/registration",(req, res, next) => {
             })
 
         }).catch((error) => {
+            console.log(error);
+
             res.json({
                 message: "Unable to register with these credentials",
                 regSuc: false,

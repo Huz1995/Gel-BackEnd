@@ -4,7 +4,6 @@ const HairArtist = require("../mongo_models/hair_artist");
 const authCheck = require("../middleware/authentication_check");
 
 router.post("",authCheck,(req,res,next) => {
-
     HairArtist.find({
         location: {
           $near: {

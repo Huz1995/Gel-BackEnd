@@ -39,6 +39,7 @@ mongoose.connect(mongoDBConnect,{ useNewUrlParser: true, useUnifiedTopology: tru
     console.log("Rest Api has successfully connected to mongoDb Database");
 })
 .catch(err=>{
+  console.log(err);
     console.log("Not connected to the database");
 })
 

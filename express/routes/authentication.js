@@ -13,6 +13,7 @@ router.post("/registration",(req, res, next) => {
             uid: req.body.uid,
             isHairArtist: req.body.isHairArtist,
             profilePhotos: [],
+            reviews: [],
             profilePhotoUrl: req.body.photoURL != "null" ? req.body.photoURL : null,
             about: {
                 name: tempName,
@@ -53,6 +54,7 @@ router.post("/registration",(req, res, next) => {
             isHairArtist: req.body.isHairArtist,
             profilePhotoUrl: req.body.photoURL != "null" ? req.body.photoURL : null,
             name: tempName,
+            favouriteUIDs: [],
         });
         hairClient.save().then((dbRes) => {
             res.status(201).json({

@@ -8,8 +8,6 @@ router.get('/:uid',authCheck,(req,res,next) => {
     const uid = req.params.uid;
     HairArtist.findOne({uid: req.params.uid})
     .then(userData => {
-        console.log(userData);
-
         res.send(userData);
     })
     .catch(error => {
@@ -19,7 +17,6 @@ router.get('/:uid',authCheck,(req,res,next) => {
 
 /*add photo url to hair artist profile*/
 router.put("/photos", authCheck,(req,res,next) => {
-    console.log(req.body.photoUrl);
 
     HairArtist.findOneAndUpdate(
         {uid: req.body.uid},
@@ -104,5 +101,30 @@ router.put("/location/:uid/",authCheck, (req,res,next) => {
     })
 })
 
+router.post("/review", authCheck, (req,res,next) => {
+    console.log(req.body);
+    const review = {
+        score: req.body.score,
+        body: req.body.body,
+        reviewerUID: req.body.hairClientUid,
+        datetime: req.body.datetime,
+    }
+    console.log(review);
+    HairArtist.findOneAndUpdate(
+        {uid: req.body.hairArtistUid},
+        {$push: {
+            reviews: {
+                $each: [review], $position: 0
+            }
+        }
+    }
+    )
+    .then(result => {
+        res.send("review added");
+    })
+    .catch(error => {
+        res.send("not able to store the review");
+    })
+})
 
 module.exports = router;

@@ -1,15 +1,27 @@
 const express = require("express");
 const router = express.Router();
 const HairClient = require("../mongo_models/hair_client");
+const HairArtist = require("../mongo_models/hair_artist");
 const authCheck = require("../middleware/authentication_check");
 
+
 /*get hair artist profile data and send to front end*/
-router.get('/:uid',authCheck,(req,res,next) => {
-    const uid = req.params.uid;
-    HairClient.findOne({uid: req.params.uid})
-    .then(userData => {
-        res.send(userData);
-    })
+router.get('/:uid',authCheck,async (req,res,next) => {
+
+    var hairClient = await HairClient.findOne({uid: req.params.uid});
+    var hairClientToFrontEnd = {
+        uid: hairClient.uid,
+        profilePhotoUrl: hairClient.profilePhotoUrl,
+        name: hairClient.name,
+        email: hairClient.email,
+        isHairArtist:  hairClient.isHairArtist,
+        favoriteHairArtists: [],
+    }
+    for(i = 0; i < hairClient.favouriteHairArtists.length; i++) {
+        const hairArtist = await HairArtist.findOne({uid: hairClient.favouriteHairArtists[i]});
+        hairClientToFrontEnd.favoriteHairArtists.push(hairArtist);
+    }
+    return res.send(hairClientToFrontEnd);
 })
 
 router.put("/setName/:uid/",authCheck, (req,res,next) => {
@@ -45,5 +57,43 @@ router.put("/profilepicture", authCheck,(req,res,next) => {
         res.send("unable to store new photo url");
     })
 })
+
+router.post("/favouriteHairArtists",authCheck,(req,res,next) => {
+    HairClient.findOneAndUpdate(
+        {uid: req.body.uid},        
+        {$push: {
+            favouriteHairArtists: {
+            $each: [req.body.favouriteHairArtists]
+            }
+        }
+    })
+    .then(result => {
+        console.log(result);
+        res.send("artist added as favourite");
+    })
+    .catch(error => {
+        console.log(error);
+        res.send("error");
+    })
+    console.log(req.body.favouriteHairArtists);
+});
+
+router.delete("/favouriteHairArtists",authCheck,(req,res,next) => {
+    HairClient.findOneAndUpdate(
+        {uid: req.body.uid},        
+        {$pull: {
+            favouriteHairArtists: req.body.favouriteHairArtists,
+        }
+    })
+    .then(result => {
+        console.log(result);
+        res.send("artist removed as favourite");
+    })
+    .catch(error => {
+        console.log(error);
+        res.send("error");
+    })
+    console.log(req.body.favouriteHairArtists);
+});
 
 module.exports = router;

@@ -12,6 +12,27 @@ const HairArtistLocation = new mongoose.Schema({
       }
 })
 
+const HairArtistReview = new mongoose.Schema({
+    score: {
+        type: Number,
+        required: true,
+    },
+    body: {
+        type: String,
+        required: true,
+    },
+    datetime: {
+        type: String,
+        required: true,
+    },
+    reviewerUID: {
+        type: String,
+        required: true,
+    }
+
+})
+
+
 const HairArtistProfileInformation = new mongoose.Schema({
     name: {
         type: String,
@@ -91,6 +112,10 @@ const HairArtistSchema = new mongoose.Schema({
         type: HairArtistLocation,
         required: true, 
         default: [0, 0],
+    },
+    reviews: {
+        type: [HairArtistReview],
+        required: true,
     }
     
 })

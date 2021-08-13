@@ -24,6 +24,10 @@ const HairClientSchema = new mongoose.Schema({
         required: false,
         default: null,
     },
+    favouriteHairArtists: {
+        type: [String],
+        required: true,
+    }
 });
 
 module.exports = mongoose.model("Hair_Client",HairClientSchema);

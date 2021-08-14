@@ -113,6 +113,14 @@ const HairArtistSchema = new mongoose.Schema({
         required: true, 
         default: [0, 0],
     },
+    numReviews: {
+        type: Number,
+        required: true,
+    },
+    totalScore: {
+        type: Number,
+        required: true,
+    },
     reviews: {
         type: [HairArtistReview],
         required: true,

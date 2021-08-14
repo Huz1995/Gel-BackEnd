@@ -24,6 +24,15 @@ router.get('/:uid',authCheck,async (req,res,next) => {
     return res.send(hairClientToFrontEnd);
 })
 
+router.get('/reviewer/:uid',authCheck, async (req, res, next) => {
+    var hairClient = await HairClient.findOne({uid: req.params.uid});
+    reviewData = {
+        reviewerProfilePhotoUrl: hairClient.profilePhotoUrl,
+        reviewerName: hairClient.name,
+    }
+    res.send(reviewData);
+})
+
 router.put("/setName/:uid/",authCheck, (req,res,next) => {
     HairClient.findOneAndUpdate({uid: req.params.uid},{name: req.body.name})
     .then(result => {

@@ -101,7 +101,7 @@ router.put("/location/:uid/",authCheck, (req,res,next) => {
     })
 })
 
-router.post("/review", authCheck, (req,res,next) => {
+router.post("/review", authCheck, async (req,res,next) => {
     console.log(req.body);
     const review = {
         score: req.body.score,
@@ -109,22 +109,59 @@ router.post("/review", authCheck, (req,res,next) => {
         reviewerUID: req.body.hairClientUid,
         datetime: req.body.datetime,
     }
-    console.log(review);
-    HairArtist.findOneAndUpdate(
+    var updatedHairArtist = await HairArtist.findOneAndUpdate(
         {uid: req.body.hairArtistUid},
         {$push: {
             reviews: {
                 $each: [review], $position: 0
             }
         }
-    }
+        },        
+        {new: true},
     )
-    .then(result => {
-        res.send("review added");
-    })
-    .catch(error => {
-        res.send("not able to store the review");
-    })
+    await HairArtist.findOneAndUpdate(
+        {uid: req.body.hairArtistUid},      
+        {
+            $inc: {numReviews: 1}
+        },
+    )
+    await HairArtist.findOneAndUpdate(
+        {uid: req.body.hairArtistUid},      
+        {
+            $inc: {totalScore: review.score}
+        },
+    )
+    console.log(updatedHairArtist.reviews[0]._id);
+    res.send({_id: updatedHairArtist.reviews[0]._id});
+
+})
+
+router.delete("/review",authCheck, async (req,res,next) => {
+    console.log(req.body.hairArtistUid);
+    console.log(req.body.reviewId);
+    console.log(req.body.score);
+    await HairArtist.findOneAndUpdate(
+        {uid: req.body.hairArtistUid},
+        {$pull: {
+            reviews: {
+                _id : req.body.reviewId
+            }
+        }
+        },        
+    )
+    await HairArtist.findOneAndUpdate(
+        {uid: req.body.hairArtistUid},      
+        {
+            $inc: {numReviews: -1}
+        },
+    )
+    await HairArtist.findOneAndUpdate(
+        {uid: req.body.hairArtistUid},      
+        {
+            $inc: {totalScore: -req.body.score}
+        },
+    )
+    res.send("ok");
 })
 
 module.exports = router;

@@ -68,7 +68,6 @@ router.put("/profilepicture", authCheck,(req,res,next) => {
 })
 
 router.delete("/profilepicture", authCheck,(req,res,next) => {
-    console.log(req.body.photoUrl);
     HairArtist.findOneAndUpdate({uid: req.body.uid},{profilePhotoUrl: null})
     .then(result => {
         res.send("profile photo url added");
@@ -79,6 +78,7 @@ router.delete("/profilepicture", authCheck,(req,res,next) => {
 })
 
 router.put("/about/:uid/",authCheck, (req,res,next) => {
+    console.log(req.body);
     HairArtist.findOneAndUpdate({uid: req.params.uid},{about: req.body})
     .then(result => {
         res.send("about infomation updated");

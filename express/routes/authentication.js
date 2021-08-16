@@ -20,6 +20,8 @@ router.post("/registration",(req, res, next) => {
             about: {
                 name: tempName,
                 contactNumber: "",
+                dialCode: "",
+                isoCode: "",
                 instaUrl: "",
                 description: "",
                 chatiness: "",

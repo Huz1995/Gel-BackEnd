@@ -32,7 +32,6 @@ const HairArtistReview = new mongoose.Schema({
 
 })
 
-
 const HairArtistProfileInformation = new mongoose.Schema({
     name: {
         type: String,
@@ -40,6 +39,16 @@ const HairArtistProfileInformation = new mongoose.Schema({
         default: null,
     },
     contactNumber: {
+        type: String,
+        required: false,
+        default: null,
+    },
+    dialCode: {
+        type: String,
+        required: false,
+        default: null,
+    },
+    isoCode: {
         type: String,
         required: false,
         default: null,

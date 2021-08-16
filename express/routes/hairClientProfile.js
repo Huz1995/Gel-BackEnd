@@ -33,6 +33,7 @@ router.get('/reviewer/:uid',authCheck, async (req, res, next) => {
     res.send(reviewData);
 })
 
+
 router.put("/setName/:uid/",authCheck, (req,res,next) => {
     HairClient.findOneAndUpdate({uid: req.params.uid},{name: req.body.name})
     .then(result => {

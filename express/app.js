@@ -57,14 +57,10 @@ mongoose.connect(mongoDBConnect,{ useNewUrlParser: true, useUnifiedTopology: tru
     console.log("Not connected to the database");
 })
 
-app.get("",(req,res,next) => {
-  res.send('working');
-})
-
-// app.use("/api/authentication",authRoute);
-// app.use("/api/hairArtistProfile",hairArtistProfileRoute);
-// app.use("/api/hairClientProfile",hairClientProfileRoute);
-// app.use("/api/searchHairArtists",searchHairArtistsRoute);
+app.use("/api/authentication",authRoute);
+app.use("/api/hairArtistProfile",hairArtistProfileRoute);
+app.use("/api/hairClientProfile",hairClientProfileRoute);
+app.use("/api/searchHairArtists",searchHairArtistsRoute);
 
 
 module.exports = app;

@@ -7,6 +7,8 @@ const authRoute = require('./routes/authentication');
 const hairArtistProfileRoute = require('./routes/hairArtistProfile');
 const hairClientProfileRoute = require('./routes/hairClientProfile');
 const searchHairArtistsRoute = require('./routes/searchHairArtists');
+
+
 var admin = require("firebase-admin");
 
 var serviceAccount = require("../gel-auth-dev-firebase-adminsdk-277q6-fc605e12ac.json");
@@ -27,6 +29,18 @@ const mongoDBConnect = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONG
 
 /*init an express application*/
 const app = express();
+const http = require('http').createServer(app);
+
+//Socket Logic
+const socketio = require('socket.io')(http)
+
+socketio.on("connection", (userSocket) => {
+    userSocket.on("send_message", (data) => {
+        userSocket.broadcast.emit("receive_message", data)
+    })
+})
+
+
 /*use cors for cross orgin referencing*/
 app.use(cors());
 /*use json bodyparser to parse url req.body to json*/

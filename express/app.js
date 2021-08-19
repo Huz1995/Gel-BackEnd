@@ -58,7 +58,7 @@ mongoose.connect(mongoDBConnect,{ useNewUrlParser: true, useUnifiedTopology: tru
 })
 
 app.get("", (req,res,next) => {
-  res.send("welcome to Gel");
+  res.send("Welcome to Gel");
 });
 
 app.use("/api/authentication",authRoute);

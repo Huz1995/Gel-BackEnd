@@ -57,9 +57,9 @@ mongoose.connect(mongoDBConnect,{ useNewUrlParser: true, useUnifiedTopology: tru
     console.log("Not connected to the database");
 })
 
-app.get("", (req,res,(next) => {
+app.get("", (req,res,next) => {
   res.send("welcome to Gel");
-}))
+});
 
 app.use("/api/authentication",authRoute);
 app.use("/api/hairArtistProfile",hairArtistProfileRoute);

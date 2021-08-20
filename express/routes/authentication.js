@@ -59,6 +59,7 @@ router.post("/registration",(req, res, next) => {
             profilePhotoUrl: req.body.photoURL != "null" ? req.body.photoURL : null,
             name: tempName,
             favouriteUIDs: [],
+            hairArtistMessagingUids: [],
         });
         hairClient.save().then((dbRes) => {
             res.status(201).json({

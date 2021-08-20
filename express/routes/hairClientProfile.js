@@ -9,7 +9,6 @@ const authCheck = require("../middleware/authentication_check");
 router.get('/:uid',authCheck,async (req,res,next) => {
 
     var hairClient = await HairClient.findOne({uid: req.params.uid});
-    console.log(hairClient.uid);
     var hairClientToFrontEnd = {
         uid: hairClient.uid,
         profilePhotoUrl: hairClient.profilePhotoUrl,

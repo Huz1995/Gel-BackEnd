@@ -27,6 +27,10 @@ const HairClientSchema = new mongoose.Schema({
     favouriteHairArtists: {
         type: [String],
         required: true,
+    },
+    hairArtistMessagingUids: {
+        type: [String],
+        required: true,
     }
 });
 

@@ -9,7 +9,7 @@ const authRoute = require('./express/routes/authentication.js');
 const hairArtistProfileRoute = require('./express/routes/hairArtistProfile');
 const hairClientProfileRoute = require('./express/routes/hairClientProfile');
 const searchHairArtistsRoute = require('./express/routes/searchHairArtists');
-
+const messagesRoute = require('./express/routes/messages')
 
 /*init to firebase admin*/
 var admin = require("firebase-admin");
@@ -61,7 +61,7 @@ app.use("/api/authentication",authRoute);
 app.use("/api/hairArtistProfile",hairArtistProfileRoute);
 app.use("/api/hairClientProfile",hairClientProfileRoute);
 app.use("/api/searchHairArtists",searchHairArtistsRoute);
-
+app.use("/api/messages",messagesRoute);
 
 
 /* set up the port variable*/
@@ -71,6 +71,10 @@ app.set("port",port);
 
 
 require("./express/middleware/socket")(app, io, mongoDBConnect);
+
+// app.get('/', (req, res) => {
+//   res.sendFile(__dirname + '/index.html');
+// });
 
 /*create server using express app and listen on port*/
 server.listen(port, () => console.log(`Server running at port ${port}`));

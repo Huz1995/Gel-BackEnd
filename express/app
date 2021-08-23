@@ -28,7 +28,6 @@ const mongoDBConnect = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONG
 
 /*init an express application*/
 const app = express();
-
 /*use cors for cross orgin referencing*/
 app.use(cors());
 /*use json bodyparser to parse url req.body to json*/

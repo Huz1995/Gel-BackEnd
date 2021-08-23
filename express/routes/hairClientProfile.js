@@ -16,6 +16,7 @@ router.get('/:uid',authCheck,async (req,res,next) => {
         email: hairClient.email,
         isHairArtist:  hairClient.isHairArtist,
         favoriteHairArtists: [],
+        hairArtistMessagingUids: hairClient.hairArtistMessagingUids
     }
     for(i = 0; i < hairClient.favouriteHairArtists.length; i++) {
         const hairArtist = await HairArtist.findOne({uid: hairClient.favouriteHairArtists[i]});

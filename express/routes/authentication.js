@@ -17,6 +17,7 @@ router.post("/registration",(req, res, next) => {
             profilePhotoUrl: req.body.photoURL != "null" ? req.body.photoURL : null,
             totalScore: 0,
             numReviews: 0,
+            hairArtistMessagingUids: [],
             about: {
                 name: tempName,
                 contactNumber: "",

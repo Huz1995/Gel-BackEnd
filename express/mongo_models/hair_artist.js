@@ -133,6 +133,10 @@ const HairArtistSchema = new mongoose.Schema({
     reviews: {
         type: [HairArtistReview],
         required: true,
+    },
+    hairClientMessagingUids: {
+        type: [String],
+        required: true,
     }
     
 })

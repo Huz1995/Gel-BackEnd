@@ -24,8 +24,6 @@ module.exports = (app, io,db) => {
             });
             const newChatRoom =  new ChatRoom({
                 roomID: data.clientUID + " " + data.artistUID,
-                artistUID: data.artistUID,
-                clientUID: data.clientUID,
                 messages: [{
                     roomID: data.clientUID + " " + data.artistUID,
                     txtMsg: "Hi there I hear you want a hair cut",

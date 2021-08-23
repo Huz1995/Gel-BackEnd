@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const HairClient = require("../mongo_models/hair_client");
 const HairArtist = require("../mongo_models/hair_artist");
+const ChatRoom = require("../mongo_models/chat_room");
 const authCheck = require("../middleware/authentication_check");
 
 
@@ -17,10 +18,9 @@ router.post("/metaChatDataClientSender", authCheck, async (req,res,next) => {
         var hairArtistDataToSend = {
             profilePhotoUrl : hairArtist.profilePhotoUrl,
             receiverUID: hairArtist.uid,
-            receiverName: hairArtist.about.name,
+            receiverName: hairArtist.about.name, 
         }
         dataToSend.push(hairArtistDataToSend);
-
     }
         console.log(dataToSend);
     res.send(dataToSend);
@@ -46,7 +46,14 @@ router.post("/metaChatDataArtistSender", authCheck, async (req,res,next) => {
     }
         console.log(dataToSend);
     res.send(dataToSend);
-
 });
+
+router.get("/chatroom/:roomId", authCheck, async (req,res,next) => {
+    console.log(req.params.roomId);
+    const chatRoom = await ChatRoom.findOne({roomId: req.params.id});
+    console.log(chatRoom);
+    res.send(chatRoom);
+})
+
 
 module.exports = router

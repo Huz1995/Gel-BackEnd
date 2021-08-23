@@ -27,9 +27,9 @@ const {
 } = process.env;
 const mongoDBConnect = `mongodb+srv://${MONGO_USERNAME}:${MONGO_PASSWORD}@${MONGO_HOSTNAME}/${MONGO_DB}?retryWrites=true&w=majority`;
 
-
 /*init an express application*/
 const app = express();
+
 /*init node server*/
 const server = http.createServer(app);
 /*init socket*/

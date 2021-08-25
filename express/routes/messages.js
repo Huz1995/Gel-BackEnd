@@ -66,7 +66,7 @@ router.post("/metaChatDataArtistSender", authCheck, async (req,res,next) => {
         const roomID = recUIDs[i] + " " + req.body.senderUID;
         const chatRoom = await ChatRoom.findOne({roomID: roomID})
         var latestMessage;
-        if(chatRoom.messages.length === 0) {
+        if(chatRoom == null || chatRoom.messages.length === 0) {
             latestMessage = {
                 txtMsg: " ",
                 time: " ",
@@ -75,7 +75,6 @@ router.post("/metaChatDataArtistSender", authCheck, async (req,res,next) => {
         else {
            latestMessage = chatRoom.messages[chatRoom.messages.length - 1]; 
         }
-       console.log(chatRoom.messages.length);
         var hairClientDataToSend = {
             profilePhotoUrl : hairClient.profilePhotoUrl,
             receiverUID: hairClient.uid,

@@ -5,7 +5,9 @@ const Message = require("../mongo_models/message");
 
 module.exports = (app, io,db) => {
     io.on("connection", function (socket) {
+        /*ths is when the hair clients tomessengins a new artist*/
         socket.on("_storeNewUIDs", async (data) => {
+            /*adding the new artist uid ot the client*/
             await HairClient.findOneAndUpdate(
                 {uid: data.clientUID},        
                 {$push: {
@@ -14,6 +16,7 @@ module.exports = (app, io,db) => {
                     }
                 }
             });
+            /*add the client uid to the artist*/
             await HairArtist.findOneAndUpdate(
                 {uid: data.artistUID},        
                 {$push: {   
@@ -22,6 +25,7 @@ module.exports = (app, io,db) => {
                     }
                 }
             });
+            /*create a new chat room with id made from client then artist uid*/
             const newChatRoom =  new ChatRoom({
                 roomID: data.clientUID + " " + data.artistUID,
                 messages: [],
@@ -38,7 +42,9 @@ module.exports = (app, io,db) => {
             
         })
 
+        /*when either artist or client sends a new message*/
         socket.on("_sendMessage", async (message) => {
+            /*add the message to the chat room array*/
             var updatedChatRoom = await ChatRoom.findOneAndUpdate(
                 {roomID: message.roomID},
                 {$push: {
@@ -50,6 +56,8 @@ module.exports = (app, io,db) => {
                 {new: true},
             )
             console.log(message.receiverUID);
+            /*for live data if they are both connected to socket willChange: on the messenging page
+            send to the reciever the message so can display on their phone*/
             io.emit(message.receiverUID,message);
         });
 

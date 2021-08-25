@@ -1,10 +1,10 @@
 const HairClient = require("../mongo_models/hair_client");
 const HairArtist = require("../mongo_models/hair_artist");
 const ChatRoom = require("../mongo_models/chat_room");
+const Message = require("../mongo_models/message");
 
 module.exports = (app, io,db) => {
     io.on("connection", function (socket) {
-        console.log(socket.id); 
         socket.on("_storeNewUIDs", async (data) => {
             await HairClient.findOneAndUpdate(
                 {uid: data.clientUID},        
@@ -24,20 +24,7 @@ module.exports = (app, io,db) => {
             });
             const newChatRoom =  new ChatRoom({
                 roomID: data.clientUID + " " + data.artistUID,
-                messages: [{
-                    roomID: data.clientUID + " " + data.artistUID,
-                    txtMsg: "Hi there I hear you want a hair cut",
-                    receiverUID: data.clientUID,
-                    senderUID: data.artistUID,
-                    time: Date.now(),
-                },
-                {
-                    roomID: data.clientUID + " " + data.artistUID,
-                    txtMsg: "Yes I do",
-                    receiverUID: data.artistUID,
-                    senderUID: data.clientUID,
-                    time: Date.now(),
-                }],
+                messages: [],
             })
             newChatRoom.save().
             then(res => {
@@ -50,6 +37,21 @@ module.exports = (app, io,db) => {
             io.emit(data.artistUID, {clientUID: data.clientUID});
             
         })
+
+        socket.on("_sendMessage", async (message) => {
+            var updatedChatRoom = await ChatRoom.findOneAndUpdate(
+                {roomID: message.roomID},
+                {$push: {
+                    messages: {
+                        $each: [message], 
+                    }
+                }
+                },        
+                {new: true},
+            )
+            console.log(message.receiverUID);
+            io.emit(message.receiverUID,message);
+        });
 
 
         
